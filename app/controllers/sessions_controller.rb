@@ -1,0 +1,35 @@
+class SessionsController < ApplicationController
+  
+  def new 
+  end
+
+  def create
+
+    sess = Session.new(:email => params[:email], :password => params[:password])    
+
+    if sess.valid?
+      user = User.where(:email => params[:email], :password => params[:password])
+      unless user[0].blank? 
+        session["user_id"] = user[0].id
+        unless params[:requested_url].blank?
+          redirect_to params[:requested_url]
+        else
+          redirect_to :controller =>'posts', :action =>'index'
+        end
+      else
+        render "new"
+      end
+    else
+      render "new"
+    end
+     
+  end
+  
+
+  def delete_session
+    session["user_id"] = nil
+    flash[:notice] = "You have successfully logged out"
+    redirect_to root_url
+  end
+  
+end

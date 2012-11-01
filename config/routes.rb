@@ -1,12 +1,21 @@
 FirstApp::Application.routes.draw do
+  match "/chat/send", :controller => "chat", :action => "send_message"
+  match "/chat/channel1", :controller => "chat", :action => "channel1"
+  match "/chat/channel2", :controller => "chat", :action => "channel2"
+
+  resources :products
+
+  scope "/users" do
+    resources :sessions do
+      get :delete_session, :on => :collection
+    end
+  end 
+
+  resources :users
  
-
-  get "session/create"
-
-
   resources :posts
 
-  get "home/index"
+  #get "home/index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -27,7 +36,7 @@ FirstApp::Application.routes.draw do
   #     member do
   #       get 'short'
   #       post 'toggle'
-  #     end
+  #     end, :on => :collection
   #
   #     collection do
   #       get 'sold'

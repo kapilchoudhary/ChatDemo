@@ -7,8 +7,17 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<% if flash[:notice] %>
+  <p class="notice"><%= flash[:notice]%></p>
+<% end %>
+<% if flash[:error] %>
+      <p class="error"><%= flash[:error] %></p>
+<% end %>
+<% unless session["user_id"].blank? %>
+   <%= link_to "logout", delete_session_sessions_path %>
+ <%else%>
+   <%= link_to "login",new_session_path  %>
+ <%end%>
 <%= yield %>
-
 </body>
 </html>

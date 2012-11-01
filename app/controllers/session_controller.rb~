@@ -1,6 +1,19 @@
-class SessionController < ApplicationController
+class SessionsController < ApplicationController
+  
+  def new 
+    
+  end
+
   def create
-    session[:user_id] = @current_user.id
-    User.find(session[:user_id])
+    session = Session.new(:email => params[:email], :password => params[:password])
+    debugger
+    if session.valid?
+      user = User.where(:email => params[:email], :password => params[:password] )
+      unless user[0].blank? 
+        session[:user] = @current_user.id
+      end
+    else
+    end
+    
   end
 end
